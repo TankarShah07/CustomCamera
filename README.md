@@ -1,7 +1,7 @@
 # CustomCamera
 
-[![License](https://img.shields.io/badge/License-MIT-brightgreen)](https://github.com/TankarShah07/SocialMediaSharing)
-[![Platform](https://img.shields.io/badge/Platform-iOS-orange)](https://github.com/TankarShah07/SocialMediaSharing)
+[![License](https://img.shields.io/badge/License-MIT-brightgreen)](https://github.com/TankarShah07/CustomCamera)
+[![Platform](https://img.shields.io/badge/Platform-iOS-orange)](https://github.com/TankarShah07/CustomCamera)
 
 ![CustomCamera](CustomCamera.gif)
 
@@ -29,4 +29,4 @@ Run the project.
 
 ## License
 
-CustomCamera is available under the MIT license. [See LICENSE](https://github.com/TankarShah07/SocialMediaSharing/blob/master/LICENSE) for details.
+CustomCamera is available under the MIT license. [See LICENSE](https://github.com/TankarShah07/CustomCamera/blob/master/LICENSE) for details.
