@@ -104,10 +104,12 @@ class CaptureImageViewController: UIViewController,UIImagePickerControllerDelega
                 // Prompting user for the permission to use the camera.
                 AVCaptureDevice.requestAccess(for: cameraMediaType) { granted in
                     if granted {
-                        self.captureSession.sessionPreset = AVCaptureSession.Preset.photo
-                        self.selectInputDevice()
-                        self.beginCamera()
-                        print("Granted access to \(cameraMediaType)")
+                        DispatchQueue.main.async {
+                            self.captureSession.sessionPreset = AVCaptureSession.Preset.photo
+                            self.selectInputDevice()
+                            self.beginCamera()
+                            print("Granted access to \(cameraMediaType)")
+                        }
                     } else {
                         self.perform(#selector(self.cameraEnable), with: nil, afterDelay: 0.5)
                         print("Denied access to \(cameraMediaType)")

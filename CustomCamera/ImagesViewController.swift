@@ -21,6 +21,8 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
     @IBOutlet weak var btnAddImage: UIButton!
     @IBOutlet weak var imageCollection: UICollectionView!
     @IBOutlet weak var navigationBarHeightConst: NSLayoutConstraint!
+    @IBOutlet weak var lblNoData: UILabel!
+    
     
     //MARK:- View Life Cycle Methods
     override func viewDidLoad() {
@@ -57,17 +59,17 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
             let fetchOptions = PHFetchOptions()
             self.allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
             self.totalCount = self.allPhotos!.count
-            if self.totalCount > 0{
-                self.imageCollection.isHidden = true
+            DispatchQueue.main.async {
+                self.lblNoData.text = "Loading Images"
+                self.imageCollection.reloadData()
+                self.perform(#selector(self.rearrangeImages), with: nil, afterDelay: 0.5)
             }
-            self.imageCollection.reloadData()
             break
             
         case .denied, .restricted :
             //handle denied status
-            if self.totalCount <= 0{
-                self.imageCollection.isHidden = false
-            }
+            self.lblNoData.text = "No Images Available"
+            self.imageCollection.isHidden = true
             self.galleryEnable()
             break
         case .notDetermined:
@@ -79,22 +81,22 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
                     let fetchOptions = PHFetchOptions()
                     self.allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
                     self.totalCount = self.allPhotos!.count
-                    if self.totalCount > 0{
-                        self.imageCollection.isHidden = true
+                    
+                    DispatchQueue.main.async {
+                        self.lblNoData.text = "Loading Images"
+                        self.imageCollection.reloadData()
+                        self.perform(#selector(self.rearrangeImages), with: nil, afterDelay: 0.5)
                     }
-                    self.imageCollection.reloadData()
                     break
                 case .denied, .restricted:
                     // as above
-                    if self.totalCount <= 0{
-                        self.imageCollection.isHidden = false
-                    }
+                    self.lblNoData.text = "No Images Available"
+                    self.imageCollection.isHidden = true
                     break
                 case .notDetermined:
                     // won't happen but still
-                    if self.totalCount <= 0{
-                        self.imageCollection.isHidden = false
-                    }
+                    self.lblNoData.text = "No Images Available"
+                    self.imageCollection.isHidden = true
                     break
                 }
             }
@@ -129,9 +131,6 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
      Return Type : Void
      **/
     @objc func galleryEnable() {
-        if self.totalCount <= 0{
-            self.imageCollection.isHidden = false
-        }
         let alert = UIAlertController(title: "Information", message: "Gallery access permission require", preferredStyle: .alert)
         // Create the actions
         let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) {
@@ -153,6 +152,13 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
         self.present(alert, animated: true, completion: nil)
     }
     
+    @objc func rearrangeImages(){
+        if self.allPhotos!.count > 0{
+            self.imageCollection.scrollToItem(at: IndexPath.init(row: self.allPhotos!.count - 1, section: 0), at: .bottom, animated: false)
+            self.imageCollection.isHidden = false
+        }
+    }
+    
     //MARK:- Collection View Delegate and Data Source Methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.totalCount
@@ -162,7 +168,7 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
         
         let cell = self.imageCollection.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
         let asset = allPhotos?.object(at: indexPath.row)
-        cell.imgPhoto.fetchImage(asset: asset!)
+        cell.imgPhoto.fetchImage(asset: asset!, contentMode: .aspectFit, targetSize: CGSize.init(width: cell.bounds.size.width + 50, height: cell.bounds.size.height + 50))
         
         return cell
     }
@@ -181,7 +187,7 @@ class ImagesViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 4) / 3
+        let width = (UIScreen.main.bounds.width - 4) / 4
         return CGSize(width: width, height: width)
     }
     

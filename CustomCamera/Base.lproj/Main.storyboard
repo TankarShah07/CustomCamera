@@ -46,7 +46,7 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rto-Px-Vze">
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rto-Px-Vze">
                                 <rect key="frame" x="0.0" y="65" width="320" height="428"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="sUJ-Vq-jtW">
@@ -124,6 +124,7 @@
                     <connections>
                         <outlet property="btnAddImage" destination="hbO-Zp-lqi" id="xVK-2T-Mog"/>
                         <outlet property="imageCollection" destination="rto-Px-Vze" id="xNU-JT-vPQ"/>
+                        <outlet property="lblNoData" destination="7Sk-eb-aad" id="LZJ-8u-Yus"/>
                         <outlet property="navigationBarHeightConst" destination="kOP-x5-0mb" id="FxI-fs-OrC"/>
                     </connections>
                 </viewController>
